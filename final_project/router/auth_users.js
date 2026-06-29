@@ -18,7 +18,7 @@ const authenticatedUser = (username,password)=>{ //returns boolean
 let validuser = users.filter((user)=>{
     return user.username === username && user.paswword === password;
 })
-return validuser.length >0 
+return validuser.length >0;
 }
 
 //only registered users can login
