@@ -9,13 +9,16 @@ public_users.post("/register", (req,res) => {
   //Write your code here
   let username = req.body.username;
   let password = req.body.password;
-  let user = users[username];
-
-if(username == "" || password == ""){
+  let takenName = Object.values(users).filter((user) => user.username === username);
+  
+  if(takenName){
+    res.send("username taken");
+}
+else if(username == "" || password == ""){
 
     res.send("username/passowrd must be filled");
 
-}else(req.body.username && req.body.password){ 
+}else if(req.body.username && req.body.password){ 
 
         users.push({
             "username": username,
