@@ -11,24 +11,18 @@ public_users.post("/register", (req,res) => {
   let password = req.body.password;
   let user = users[username];
 
-  if(user){
-    res.send("username taken");
-}
-else if(username == "" || password == ""){
+if(username == "" || password == ""){
 
     res.send("username/passowrd must be filled");
 
-}else if(req.body.username && req.body.password){ 
+}else(req.body.username && req.body.password){ 
 
         users.push({
             "username": username,
             "password": password
-        })
+        });
         res.send(`added user ${username}`);
     }
-  else{
-  return res.status(300).json({message: "Yet to be implemented"});
-  }
 });
 
 // Get the book list available in the shop
