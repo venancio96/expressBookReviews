@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 let books = require("./booksdb.js");
 const regd_users = express.Router();
+const session = require('express-session');
 
 let users = [];
 
@@ -18,11 +19,11 @@ const authenticatedUser = (username,password)=>{ //returns boolean
 let validuser = users.filter((user)=>{
     return user.username === username && user.paswword === password;
 })
-return validuser.length >0;
+return validuser.length > 0;
 }
 
 //only registered users can login
-regd_users.post("/login", (req,res) => {
+regd_users.post("customer/login", (req,res) => {
   //Write your code here
  const username = req.body.username;
  const password = req.body.password;
@@ -34,9 +35,9 @@ regd_users.post("/login", (req,res) => {
  {
     let accesstoken = jwt.sign({
         data: password
-    }, 'access', {expiresIn: 60 * 60});
+    }, 'access', { expiresIn: 60 * 60 });
     req.session.authorization = {
-        accesstoken, username
+        accessToken, username
     };
     return res.status(200).send("User successfully logged in");
   } else {
@@ -48,6 +49,11 @@ regd_users.post("/login", (req,res) => {
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
   return res.status(300).json({message: "Yet to be implemented"});
+});
+
+//temp user check
+regd_users.get('/users',function(req,res){
+res.send(JSON.stringify(users));
 });
 
 module.exports.authenticated = regd_users;
