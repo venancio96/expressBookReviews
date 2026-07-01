@@ -18,35 +18,13 @@ const isValid = (username)=> { //returns boolean
 const authenticatedUser = (username,password)=>{ //returns boolean
 //write code to check if username and password match the one we have in records.
 let validuser = users.filter((user)=>{
-    return user.username === username && user.paswword === password;
-})
+    return user.username === username && user.password === password;
+});
 return validuser.length > 0;
 }
 
-app.use(session({ secret: "fingerpint", resave: true, saveUninitialized: true }));
-
-app.use("/user", (req, res, next) => {
-    // Check if user is authenticated
-    if (req.session.authorization) {
-        let token = req.session.authorization['accessToken']; // Access Token
-        
-        // Verify JWT token for user authentication
-        jwt.verify(token, "access", (err, user) => {
-            if (!err) {
-                req.user = user; // Set authenticated user data on the request object
-                next(); // Proceed to the next middleware
-            } else {
-                return res.status(403).json({ message: "User not authenticated" }); // Return error if token verification fails
-            }
-        });
-        
-        // Return error if no access token is found in the session
-    } else {
-        return res.status(403).json({ message: "User not logged in" });
-    }
-});
 //only registered users can login
-regd_users.post("customer/login", (req,res) => {
+regd_users.post("/login", (req,res) => {
   //Write your code here
  const username = req.body.username;
  const password = req.body.password;
