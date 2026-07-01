@@ -44,7 +44,7 @@ app.use("/user", (req, res, next) => {
     } else {
         return res.status(403).json({ message: "User not logged in" });
     }
-
+});
 //only registered users can login
 regd_users.post("customer/login", (req,res) => {
   //Write your code here
@@ -59,7 +59,7 @@ regd_users.post("customer/login", (req,res) => {
     let accessToken = jwt.sign({
         data: password
     }, 'access', { expiresIn: 60 * 60 });
-    
+
     req.session.authorization = {
         accessToken, username
     };
