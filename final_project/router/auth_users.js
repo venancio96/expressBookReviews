@@ -49,7 +49,28 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
+  username = req.query.username;
+  userreview = req.query.review;
+  isbn = req.query.isbn;
+  let book = books[isbn];
+  if(book.reviews === "")
+  {
+    books.push({
+        "reviews": username + userreview
+    });
+}
+else{
+    
+}
+ /* if(!username || !userreview || !isbn)
+  {
+    return res.status(400).json({message: "invalid information"});
+  }else{
+    if (isnbooks.put({
+        "reviews": userreview
+    })
+*/
+  }
   return res.status(300).json({message: "Yet to be implemented"});
 });
 
