@@ -21,19 +21,17 @@ let validuser = users.filter((user)=>{
     return user.username === username && user.password === password;
 });
 return validuser.length > 0;
-}
+};
 
 //only registered users can login
 regd_users.post("/login", (req,res) => {
   //Write your code here
  const username = req.body.username;
  const password = req.body.password;
- if(!username || !password)
- {
+ if(!username || !password){
     return res.status(404).json({ message: "Error logging in" });
  }
- if(authenticatedUser(username,password))
- {
+ if(authenticatedUser(username, password)){
     let accessToken = jwt.sign({
         data: password
     }, 'access', { expiresIn: 60 * 60 });
@@ -54,9 +52,18 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   isbn = req.query.isbn;
   let book = books[isbn];
   if(book){
-    book["reviews"] = username + review;
+    if(book.reviews === ""){
+        book.reviews = [username, review];
+        books = books.filter((book) => book.isbn != book);        
+        books.push(book);
+        res.send("book review added");
+    }
+    else{
+        res.send("unable to find book review");
+    /*book["reviews"] = username + review;
     books[isbn]=book;
-    res.send("updated review");
+    res.send("updated review");*/
+    }
 }
 
     
