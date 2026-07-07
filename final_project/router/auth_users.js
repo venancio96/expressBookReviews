@@ -60,13 +60,16 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     }
     else{
         res.send("unable to find book review");
+
     /*book["reviews"] = username + review;
     books[isbn]=book;
     res.send("updated review");*/
     }
-}
-
     
+}
+else{
+    res.send("unknown error");
+}
 /* if(!username || !userreview || !isbn)
   {
     return res.status(400).json({message: "invalid information"});
@@ -81,7 +84,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 });
 
 //temp user check
-regd_users.get('/users',function(req,res){
+regd_users.get('/auth/users',function(req,res){
 res.send(JSON.stringify(users));
 });
 
