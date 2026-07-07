@@ -81,7 +81,7 @@ public_users.get('/review/:isbn',function (req, res) {
   //Write your code here
   const isbn = req.params.isbn;
   if(isbn){
-    res.send(books[isbn].review);
+    res.send(books[isbn].reviews);
 }else{
   return res.status(300).json({message: "Yet to be implemented"});
 }

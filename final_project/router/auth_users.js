@@ -47,29 +47,23 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  username = req.query.username;
-  review = req.query.review;
-  isbn = req.query.isbn;
+  const username = req.query.username;
+  const review = req.query.review;
+  const isbn = req.params.isbn;
   let book = books[isbn];
   if(book){
-    if(book.reviews === ""){
         book.reviews = [username, review];
-        books = books.filter((book) => book.isbn != book);        
+        books = Object.values(books).filter((book) => book.isbn != book);        
         books.push(book);
         res.send("book review added");
     }
     else{
         res.send("unable to find book review");
-
+    }
     /*book["reviews"] = username + review;
     books[isbn]=book;
     res.send("updated review");*/
-    }
     
-}
-else{
-    res.send("unknown error");
-}
 /* if(!username || !userreview || !isbn)
   {
     return res.status(400).json({message: "invalid information"});
