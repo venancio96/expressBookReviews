@@ -51,11 +51,24 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const review = req.query.review;
   const isbn = req.params.isbn;
   let book = books[isbn];
-  if(book){
-        book.reviews = [username, review];
+  if(book && book.reviews[username] === username)
+    {
+        book.reviews += [username, review];
         books = Object.values(books).filter((book) => book.isbn != book);        
         books.push(book);
+        console.log(book.reviews(username));
+        console.log(book.review[0]);
+        console.log(book.review[0,0]);
         res.send("book review added");
+    }
+    else if(book && book.reviews[0] != username){
+        book.reviews = [username, review];
+        books = Object.values(books).filter((book) => book.isbn != book);  
+        let rev = Object.values(book.reviews)[0]; 
+        //rev shows all the details of book reviews
+        books.push(book);
+        
+        res.send("book review added2" + rev);
     }
     else{
         res.send("unable to find book review");
