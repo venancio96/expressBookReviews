@@ -64,7 +64,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         //let rev = Object.values(book.reviews)[0]; 
         //rev shows all the details of book reviews
         //books.push(book);
-          res.send("book review added" + reviewer);
+          res.send("book review added");
     }
     else if(reviewer){
         //Object.assign(book.reviews,{'username':username, 'review':review});
@@ -76,7 +76,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
        //let rev = Object.values(book.reviews)[0]; 
         //books = Object.values(books).filter((book) => book.isbn != book);        
         //books.push(book);
-        res.send("book review has been edited" + reviewer);
+        res.send("book review has been edited");
       
     }
     else{
@@ -100,7 +100,13 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 });
 
 regd_users.delete("/auth/review/:isbn", (req, res) => {
-
+const isbn = req.params.isbn;
+const username = req.query.username;
+let book = books[isbn];
+if(username){
+    delete book.reviews[username];
+}
+res.send(`review of ${book.title} has been deleted`);
 });
 //temp user check
 regd_users.get('/auth/users',function(req,res){
