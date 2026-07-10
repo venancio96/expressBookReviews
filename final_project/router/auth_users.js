@@ -51,24 +51,32 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const review = req.query.review;
   const isbn = req.params.isbn;
   let book = books[isbn];
+  let reviewer = book.reviews[username];
   let boo = Object.keys(book.reviews).length;
-  
 
-  if(book && boo === 0){
-        Object.assign(book.reviews,{'username':username, 'review':review});
-        books = Object.values(books).filter((book) => book.isbn != book);  
-        let rev = Object.values(book.reviews)[0]; 
+  if(boo === 0 || reviewer != username){
+        // Object.assign(book.reviews,{'username':username, 'review':review});
+        book.reviews[username]=
+        { 
+            "review":review
+        };
+        //books = Object.values(books).filter((book) => book.isbn != book);  
+        //let rev = Object.values(book.reviews)[0]; 
         //rev shows all the details of book reviews
-        books.push(book);
-          res.send("book review added1" + rev);
+        //books.push(book);
+          res.send("book review added" + reviewer);
     }
-    else if(book && boo > 0){
-        Object.assign(book.reviews,{'username':username, 'review':review});
+    else if(reviewer){
+        //Object.assign(book.reviews,{'username':username, 'review':review});
        // book.reviews = [username, review];
-       let rev = Object.values(book.reviews)[0]; 
-        books = Object.values(books).filter((book) => book.isbn != book);        
-        books.push(book);
-        res.send("book review added2");
+       if(review){
+        reviewer["review"] = review;
+       }
+       book.reviews[username] = reviewer;
+       //let rev = Object.values(book.reviews)[0]; 
+        //books = Object.values(books).filter((book) => book.isbn != book);        
+        //books.push(book);
+        res.send("book review has been edited" + reviewer);
       
     }
     else{
