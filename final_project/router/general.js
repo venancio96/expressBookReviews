@@ -104,7 +104,7 @@ public_users.get('/author/:author',function (req, res) {
 const author = req.params.author;
 async function authorbook(){
     let booksByAuthor = Object.values(books).filter((book) => book.author === author);
-    if(booksByAuthor != author){
+    if(Object.keys(booksByAuthor).length === 0){
         res.send("no author found");
     }else{
     return booksByAuthor;
