@@ -169,7 +169,7 @@ public_users.get('/review/:isbn',function (req, res) {
   const review = books[isbn].reviews;
   if(isbn){
     if(Object.keys(review).length === 0){
-        res.send({message:"no book review found"});
+        res.send({message:"no book reveiws have been made for this book yet"});
     }
     else{
         res.send(books[isbn].reviews);
