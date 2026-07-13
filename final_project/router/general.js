@@ -39,7 +39,7 @@ public_users.get('/',function (req, res) {
     res.send(JSON.stringify(books));
     res.status(300).json{message: "faied request"}
 */
-  //with callbacks
+  //with promise callbacks
 let mypromise = new Promise((resolve,reject) =>{
     try{
         let sortedbook = JSON.stringify(books);
@@ -69,7 +69,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
 const isbn = req.params.isbn;
 async function booknumber(){
     if(isbn){
-        return isbn;
+        return books[isbn];
     }else{
         throw new Error("failed to get book");
     }
@@ -90,7 +90,7 @@ bookwaiter();
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
-  const author = req.params.author;
+/*  const author = req.params.author;
 
   if(author)
   {
@@ -98,7 +98,26 @@ public_users.get('/author/:author',function (req, res) {
     res.send(booksByAuthor);
   }else{
   return res.status(300).json({message: "FAILED"});
-  }
+  }*/
+  //
+const author = req.params.author;
+async function authorbook(){
+    if(author){
+        let booksByAuthor = Object.values(books).filter((book) => book.author === author);
+        return booksByAuthor;
+    }else{
+        throw new Error("failed to get book");
+    }
+}
+async function AuthorWait(){
+    try{
+        const result = await authorbook();
+        res.send(result);
+    }catch(error){
+        res.send(error.message)
+    }
+}
+AuthorWait();
 });
 
 // Get all books based on title
