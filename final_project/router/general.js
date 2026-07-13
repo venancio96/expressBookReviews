@@ -144,7 +144,7 @@ public_users.get('/title/:title',function (req, res) {
   let mypromise = new Promise((resolve,reject) =>{
     try{
         let booksByTitle = Object.values(books).filter((book) => book.title === title);
-        if(booksByTitle != title){
+        if(Object.keys(booksByTitle).length === 0){
             res.send("no titles found");
         }else{
         resolve(booksByTitle);
