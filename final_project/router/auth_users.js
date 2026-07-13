@@ -106,7 +106,7 @@ let book = books[isbn];
 if(username){
     delete book.reviews[username];
 }
-res.send({message:"review has been deleted"});
+res.send({message:"Review ISBN "+ isbn +" deleted"});
 });
 //temp user check
 regd_users.get('/auth/users',function(req,res){
