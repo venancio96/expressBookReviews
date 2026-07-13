@@ -64,7 +64,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         //let rev = Object.values(book.reviews)[0]; 
         //rev shows all the details of book reviews
         //books.push(book);
-          return res.status(200).json({message:"book review added"});
+          return res.status(200).json({message:"new ISBN "+isbn+" book review added"});
     }
     else if(reviewer){
         //Object.assign(book.reviews,{'username':username, 'review':review});
