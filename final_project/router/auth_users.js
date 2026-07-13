@@ -39,7 +39,7 @@ regd_users.post("/login", (req,res) => {
     req.session.authorization = {
         accessToken, username
     };
-    return res.status(200).send("User successfully logged in" + accessToken);
+    return res.status(200).send("User successfully logged in");
   } else {
     return res.status(208).json({ message: "Invalid Login. Check username and password" });
   }
@@ -64,7 +64,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         //let rev = Object.values(book.reviews)[0]; 
         //rev shows all the details of book reviews
         //books.push(book);
-          res.send({message:"book review added"});
+          return res.status(200).json({message:"book review added"});
     }
     else if(reviewer){
         //Object.assign(book.reviews,{'username':username, 'review':review});
@@ -76,11 +76,11 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
        //let rev = Object.values(book.reviews)[0]; 
         //books = Object.values(books).filter((book) => book.isbn != book);        
         //books.push(book);
-        res.send("review has been added");
+        res.status(200).json({meesage:"review has been added"});
       
     }
     else{
-        res.send("unable to find book review");
+        res.status(308).json({message:"unable to find book review"});
     }
     /*book["reviews"] = username + review;
     books[isbn]=book;
@@ -108,15 +108,7 @@ if(username){
 }
 res.send("Review ISBN "+ isbn +" deleted");
 });
-//temp user check
-regd_users.get('/auth/users',function(req,res){
-res.send(JSON.stringify(users));
-});
 
-regd_users.get('/token/',function(req,res){
-    token = req.header['authorization'];
-    res.send(token);
-});
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
