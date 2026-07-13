@@ -71,7 +71,7 @@ async function booknumber(){
     if(isbn){
         return books[isbn];
     }else{
-        throw new Error("failed to get book");
+        throw new Error((300).json({message:"failed to get book"}));
     }
 }
 async function bookwaiter(){
@@ -106,7 +106,7 @@ async function authorbook(){
         let booksByAuthor = Object.values(books).filter((book) => book.author === author);
         return booksByAuthor;
     }else{
-        throw new Error("failed to get book");
+        throw new Error((300).json({message:"FAILED"}));
     }
 }
 async function AuthorWait(){
@@ -154,7 +154,7 @@ public_users.get('/review/:isbn',function (req, res) {
   if(isbn){
     res.send(books[isbn].reviews);
 }else{
-  return res.status(300).json({message: "Yet to be implemented"});
+  return res.status(300).json({message: "faield to obtain review"});
 }
 });
 
