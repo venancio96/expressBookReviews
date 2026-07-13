@@ -76,7 +76,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
        //let rev = Object.values(book.reviews)[0]; 
         //books = Object.values(books).filter((book) => book.isbn != book);        
         //books.push(book);
-        res.send({message:"review has been added"});
+        res.send("review has been added");
       
     }
     else{
@@ -106,7 +106,7 @@ let book = books[isbn];
 if(username){
     delete book.reviews[username];
 }
-res.send({message:"Review ISBN "+ isbn +" deleted"});
+res.send("Review ISBN "+ isbn +" deleted");
 });
 //temp user check
 regd_users.get('/auth/users',function(req,res){
