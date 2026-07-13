@@ -101,15 +101,17 @@ public_users.get('/author/:author',function (req, res) {
   return res.status(300).json({message: "FAILED"});
   }*/
   //
+
 const author = req.params.author;
+if(author){
 async function authorbook(){
     let booksByAuthor = Object.values(books).filter((book) => book.author === author);
-    if(Object.keys(booksByAuthor).length === 0){
-        res.send("no author found");
-    }else{
-    return booksByAuthor;
+        if(Object.keys(booksByAuthor).length === 0){
+            res.send("no author found");
+        }else{
+        return booksByAuthor;
+        }
     }
-}
 
 async function AuthorWait(){
     try{
@@ -120,6 +122,9 @@ async function AuthorWait(){
     }
 }
 AuthorWait();
+}else{
+    res.send("author must be included")
+}
 });
 
 // Get all books based on title
@@ -135,6 +140,7 @@ public_users.get('/title/:title',function (req, res) {
   */
  //promise
   const title = req.params.title;
+  if(title){
   let mypromise = new Promise((resolve,reject) =>{
     try{
         let booksByTitle = Object.values(books).filter((book) => book.title === title);
@@ -151,6 +157,9 @@ public_users.get('/title/:title',function (req, res) {
         (booksByTitle) => res.send(booksByTitle),
         (err) => res.status(300).json({message: "failed reuqest"})
     );
+  }else{
+    res.send("please add the title");
+  }
 });
 
 //  Get book review
