@@ -2,6 +2,7 @@ const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
+const axios = require('axios').default;
 const public_users = express.Router();
 
 
@@ -34,20 +35,56 @@ else{
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  res.send(JSON.stringify(books));
-  return res.status(300).json({message: "Yet to be implemented"});
+/*without callbacks 
+    res.send(JSON.stringify(books));
+    res.status(300).json{message: "faied request"}
+*/
+  //with callbacks
+let mypromise = new Promise((resolve,reject) =>{
+    try{
+        let sortedbook = JSON.stringify(books);
+        resolve(sortedbook);
+    }catch(err){
+        reject(err);
+    }
 });
+    mypromise.then(
+        (sortedbook) => res.send(sortedbook),
+        (err) => res.status(300).json({message: "failed reuqest"})
+    );
+    });
 
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
-  const isbn = req.params.isbn;
+  /*const isbn = req.params.isbn;
   if(isbn){
   res.send(books[isbn]);
   }else{
   return res.status(300).json({message: "no book found"});
   }
+*/
+//with async-await
+const isbn = req.params.isbn;
+async function booknumber(){
+    if(isbn){
+        return isbn;
+    }else{
+        throw new Error("failed to get book");
+    }
+}
+async function bookwaiter(){
+    try{
+        const result = await booknumber();
+        res.send(result);
+    }catch(error){
+        res.send(error.message)
+    }
+}
+
+bookwaiter();
+
 });
   
 // Get book details based on author
