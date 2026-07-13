@@ -52,7 +52,7 @@ let mypromise = new Promise((resolve,reject) =>{
         (sortedbook) => res.send(sortedbook),
         (err) => res.status(300).json({message: "failed reuqest"})
     );
-    });
+});
 
 
 // Get book details based on ISBN
@@ -123,13 +123,28 @@ AuthorWait();
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
   //Write your code here
-  const title = req.params.title;
+  /*const title = req.params.title;
   if(title){
     let booksByTitle = Object.values(books).filter((book)=> book.title === title);
     res.send(booksByTitle);
   }else{
   return res.status(300).json({message: "failed"});
   }
+  */
+ //promise
+  const title = req.params.title;
+  let mypromise = new Promise((resolve,reject) =>{
+    try{
+        let booksByTitle = Object.values(books).filter((book) => book.title === title);
+        resolve(booksByTitle);
+    }catch(err){
+        reject(err);
+    }
+});
+    mypromise.then(
+        (booksByTitle) => res.send(booksByTitle),
+        (err) => res.status(300).json({message: "failed reuqest"})
+    );
 });
 
 //  Get book review
