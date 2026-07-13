@@ -68,10 +68,11 @@ public_users.get('/isbn/:isbn',function (req, res) {
 //with async-await
 const isbn = req.params.isbn;
 async function booknumber(){
-    if(isbn){
+    let numbook = books[isbn];
+    if(numbook){
         return books[isbn];
-    }else{
-        throw new Error((300).json({message:"failed to get book"}));
+    }else if(numbook != isbn){
+        res.send("no book found");
     }
 }
 async function bookwaiter(){
@@ -79,7 +80,7 @@ async function bookwaiter(){
         const result = await booknumber();
         res.send(result);
     }catch(error){
-        res.send(error.message)
+        res.send("no books found1");
     }
 }
 
@@ -102,19 +103,20 @@ public_users.get('/author/:author',function (req, res) {
   //
 const author = req.params.author;
 async function authorbook(){
-    if(author){
-        let booksByAuthor = Object.values(books).filter((book) => book.author === author);
-        return booksByAuthor;
+    let booksByAuthor = Object.values(books).filter((book) => book.author === author);
+    if(booksByAuthor != author){
+        res.send("no author found");
     }else{
-        throw new Error((300).json({message:"FAILED"}));
+    return booksByAuthor;
     }
 }
+
 async function AuthorWait(){
     try{
         const result = await authorbook();
         res.send(result);
     }catch(error){
-        res.send(error.message)
+        res.send("no author found")
     }
 }
 AuthorWait();
@@ -136,7 +138,11 @@ public_users.get('/title/:title',function (req, res) {
   let mypromise = new Promise((resolve,reject) =>{
     try{
         let booksByTitle = Object.values(books).filter((book) => book.title === title);
+        if(booksByTitle != title){
+            res.send("no titles found");
+        }else{
         resolve(booksByTitle);
+        }
     }catch(err){
         reject(err);
     }
@@ -151,8 +157,14 @@ public_users.get('/title/:title',function (req, res) {
 public_users.get('/review/:isbn',function (req, res) {
   //Write your code here
   const isbn = req.params.isbn;
+  const review = books[isbn].reviews;
   if(isbn){
-    res.send(books[isbn].reviews);
+    if(Object.keys(review).length === 0){
+        res.send({message:"no book review found"});
+    }
+    else{
+        res.send(books[isbn].reviews);
+    }
 }else{
   return res.status(300).json({message: "faield to obtain review"});
 }
